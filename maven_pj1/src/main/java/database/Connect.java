@@ -9,7 +9,7 @@ public class Connect {
 		Connection c = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/pjmanagement";
+			String url = "jdbc:mysql://localhost:3306/pjmanagement1";
 			String user = "root";
 			String matkhau = "kanekiken1412";
 			Connection connection = DriverManager.getConnection(url, user, matkhau);

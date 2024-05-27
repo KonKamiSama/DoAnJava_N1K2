@@ -1,8 +1,13 @@
 package dao;
 
 import model.*;
-import view.Login3_ManagementWindow;
+import util.*;
+import view.Login3_0ManagementWindow;
 
+import org.json.JSONObject;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import java.sql.Date;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -12,67 +17,56 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import javax.swing.table.DefaultTableModel;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.hibernate.Session;
+import java.util.List;
 
 import dao.SinhVienInterface;
 import database.Connect;
 
 public class SinhVienDAO implements SinhVienInterface <SinhVien> {
-
 	@Override
-	public void Add (SinhVien t) {
-		try {
-			//b1
-			Connection con = Connect.getConnection();
-			//B2
-			String sql = "INSERT INTO sinhvien VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	        PreparedStatement st = con.prepareStatement(sql);
-	        st.setString(1, t.getIdSV());
-	        st.setString(2, t.getName());
-	        st.setString(3, t.getGender());
-	        st.setDate(4, t.getDoB());
-	        st.setString(5, t.getClas());
-	        st.setString(6, t.getPhone());
-	        st.setString(7, t.getEmail());
-	        st.setString(8, t.getNamepj());
-	        st.setString(9, t.getCodeLan());
-	        st.setString(10, t.getProcess());
-	        System.out.println(sql);
-	        st.executeUpdate();
-			//B4
-			System.out.println("You have done somthing: " + st);
-			//B5
-			Connect.closeConnection(con);
-			System.out.println(con);
-		} catch (SQLException e) {
-			System.out.println(e.toString());
-			e.getMessage();		
-		}
+	public void Add(SinhVien t) {
+	    Transaction transaction = null;
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        transaction = session.beginTransaction();
+	        session.save(t);
+	        transaction.commit();
+	        System.out.println("SinhVien added successfully!");
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        e.printStackTrace();
+	    }
 	}
 
 	@Override
 	public void Delete(SinhVien t) {
-		// TODO Auto-generated method stub
-		try {
-			//b1
-			Connection con = Connect.getConnection();
-			//B2
-			String sql = "DELETE FROM sinhvien WHERE StudentID = ?";
-			//B3
-			PreparedStatement ps = con. prepareStatement(sql);
-			ps.setString(1, t.getIdSV());
-			ps.executeUpdate();
-			//B4
-			System.out.println("You have done somthing: " + sql);
-			//B5
-			Connect.closeConnection(con);
-			System.out.println(con);
-		} catch (SQLException e) {
-			e.getMessage();		
-			}
+	    Transaction transaction = null;
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        transaction = session.beginTransaction();
+	        SinhVien sv = session.get(SinhVien.class, t.getIdSV());
+	        if (sv != null) {
+	            session.delete(sv);
+	            transaction.commit();
+	            System.out.println("SinhVien deleted successfully!");
+	        } else {
+	            System.out.println("SinhVien not found with ID: " + t.getIdSV());
+	        }
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        e.printStackTrace();
+	    }
 	}
-
+	
 	@Override
 	public void Save(SinhVien t) {
 		// TODO Auto-generated method stub
@@ -94,74 +88,114 @@ public class SinhVienDAO implements SinhVienInterface <SinhVien> {
 	}
 
 	@Override
-	public void Edit(SinhVien t) {
-		try {
-		    Connection con = Connect.getConnection();
-		    String sql = "UPDATE sinhvien SET FullName = ?, Gender = ?, DateofBirth = ?, Class = ?, PhoneNumber = ?, Email = ?, ProjectName = ?, CodeLanguage = ?, Process = ? WHERE StudentID = ?";
-		    PreparedStatement st = con.prepareStatement(sql);
-		    st.setString(1, t.getName());
-		    st.setString(2, t.getGender());
-		    st.setDate(3, t.getDoB());
-		    st.setString(4, t.getClas());
-		    st.setString(5, t.getPhone());
-		    st.setString(6, t.getEmail());
-		    st.setString(7, t.getNamepj());
-		    st.setString(8, t.getCodeLan());
-		    st.setString(9, t.getProcess());
-		    st.setString(10, t.getIdSV());
-		    st.executeUpdate();
-
-		    System.out.println("Update successful: " + st);
-		} catch (SQLException e) {
-		    System.out.println("Error in updating record: " + e.getMessage());
-		    e.printStackTrace();
-		}
-	}
-	@Override
-	public ArrayList<SinhVien> SelectAll() {
-		// TODO Auto-generated method stub
-		ArrayList<SinhVien> svList = new ArrayList<SinhVien>();
-			try {
-				Connection con = Connect.getConnection();
-				PreparedStatement st = con.prepareStatement("SELECT * FROM sinhvien");
-				ResultSet rs = st.executeQuery();
-				while (rs.next()) {
-//					Object oList [] = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10)};
-					String idSV = rs.getString(1);
-					String name = rs.getString(2);
-					String gender = rs.getString(3);
-					Date doB = rs.getDate(4);
-					String email = rs.getString(5);
-					String clas = rs.getString(6);
-					String phone = rs.getString(7);
-					String namepj = rs.getString(8);
-					String codeLan = rs.getString(9);
-					String process = rs.getString(10);
-					SinhVien sv = new SinhVien(idSV, name, doB,  gender, email, clas, phone, namepj, codeLan, process);
-					svList.add(sv);
-				}
-				return svList;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return svList;
+	public void Edit(String jsonData) {
+	    Transaction transaction = null;
+	    Session session = null;
+	    try {
+	        // Parse JSON từ chuỗi nhận được
+	        JSONObject jsonSv = new JSONObject(jsonData);
+	        session = HibernateUtil.getSessionFactory().openSession();
+	        transaction = session.beginTransaction();
+	        // Lấy ID từ JSON và tìm kiếm SinhVien tương ứng
+	        String idSV = jsonSv.getString("idSV");
+	        SinhVien sv = session.get(SinhVien.class, idSV);
+	        if (sv != null) {
+	            // Cập nhật thông tin từ JSON
+	            sv.setName(jsonSv.getString("name"));
+	            sv.setGender(jsonSv.getString("gender"));
+	            try {
+	                sv.setDoB(Date.valueOf(jsonSv.getString("doB"))); // Chuyển đổi chuỗi thành java.sql.Date
+	            } catch (IllegalArgumentException e) {
+	                System.out.println("Error: Invalid date format. Required format is yyyy-MM-dd.");
+	                return;
+	            }
+	            sv.setClas(jsonSv.getString("clas"));
+	            sv.setPhone(jsonSv.getString("phone"));
+	            sv.setEmail(jsonSv.getString("email"));
+	            sv.setNamepj(jsonSv.getString("namepj"));
+	            sv.setCodeLan(jsonSv.getString("codeLan"));
+	            sv.setProcess(jsonSv.getString("process"));
+	            session.update(sv);
+	            transaction.commit();
+	            System.out.println("SinhVien updated successfully!");
+	        } else {
+	            System.out.println("SinhVien not found with ID: " + idSV);
+	        }
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        System.out.println("Error updating SinhVien: " + e.getMessage());
+	        e.printStackTrace();
+	    } finally {
+	        if (session != null) {
+	            session.close();
+	        }
+	    }
 	}
 
-	@Override
-	public void Sort(SinhVien t) {
-		// TODO Auto-generated method stub
-		try {
-			Connection con = Connect.getConnection();
-			PreparedStatement st = con.prepareStatement("SELECT FROM sinhvien WHERE");
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
+//	public void Edit(SinhVien t) {
+//	    Transaction transaction = null;
+//	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+//	        transaction = session.beginTransaction();
+//	        SinhVien sv = session.get(SinhVien.class, t.getIdSV());
+//	        if (sv != null) {
+//	            sv.setName(t.getName());
+//	            sv.setGender(t.getGender());
+//	            sv.setDoB(t.getDoB());
+//	            sv.setClas(t.getClas());
+//	            sv.setPhone(t.getPhone());
+//	            sv.setEmail(t.getEmail());
+//	            sv.setNamepj(t.getNamepj());
+//	            sv.setCodeLan(t.getCodeLan());
+//	            sv.setProcess(t.getProcess());
+//	            session.update(sv);
+//	            transaction.commit();
+//	            System.out.println("SinhVien updated successfully!");
+//	        } else {
+//	            System.out.println("SinhVien not found with ID: " + t.getIdSV());
+//	        }
+//	    } catch (Exception e) {
+//	        if (transaction != null) {
+//	            transaction.rollback();
+//	        }
+//	        e.printStackTrace();
+//	    }
+//	}
 
-	@Override
-	public void Find(SinhVien t) {
-		// TODO Auto-generated method stub
-		
+//	@Override
+//	public ArrayList<SinhVien> SelectAll() {
+//	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+//	        return new ArrayList<>(session.createQuery("from SinhVien", SinhVien.class).list());
+//	    } catch (Exception e) {
+//	        e.printStackTrace();
+//	        return null;
+//	    }
+//	}
+	public JSONArray SelectAll() {
+	    JSONArray jsonArray = new JSONArray();
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        // lay tt tu db
+	        List<SinhVien> svList = session.createQuery("from SinhVien", SinhVien.class).list();
+	        // 
+	        for (SinhVien sv : svList) {
+	            JSONObject jsonSv = new JSONObject();
+	            jsonSv.put("idSV", sv.getIdSV());
+	            jsonSv.put("name", sv.getName());
+	            jsonSv.put("gender", sv.getGender());
+	            jsonSv.put("doB", sv.getDoB().toString());
+	            jsonSv.put("clas", sv.getClas());
+	            jsonSv.put("phone", sv.getPhone());
+	            jsonSv.put("email", sv.getEmail());
+	            jsonSv.put("namepj", sv.getNamepj());
+	            jsonSv.put("codeLan", sv.getCodeLan());
+	            jsonSv.put("process", sv.getProcess());
+	            jsonArray.put(jsonSv);
+	        }
+	        return jsonArray;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
 }

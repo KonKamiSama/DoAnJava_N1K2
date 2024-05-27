@@ -11,43 +11,46 @@ import javax.swing.JLabel;
 
 @Entity
 public class SinhVien {
-	@Id
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String idSV;
+	
 	private String name;
 	private Date doB;
 	private String gender;
-	private String email;
 	private String clas;
 	private String phone;
+	private String email;
 	private String namepj;
 	private String codeLan;
 	private String process;
 	
 	
 	public SinhVien() {
-
 	}
-	public SinhVien(String idSV, String name, Date doB, String gender, String email, String clas, String phone,
+	
+	public SinhVien(String idSV, String name, Date doB, String gender, String clas, String phone, String email,
 			String namepj, String codeLan, String process) {
 		super();
 		this.idSV = idSV;
 		this.name = name;
 		this.doB = doB;
 		this.gender = gender;
-		this.email = email;
 		this.clas = clas;
 		this.phone = phone;
+		this.email = email;
 		this.namepj = namepj;
 		this.codeLan = codeLan;
 		this.process = process;
 	}
 	@Override
 	public String toString() {
-		return "SinhVien [idSV=" + idSV + ", name=" + name + ", doB=" + doB + ", gender=" + gender + ", email=" + email
-				+ ", clas=" + clas + ", phone=" + phone + ", namepj=" + namepj + ", codeLan=" + codeLan + ", process="
+		return "SinhVien [idSV=" + idSV + ", name=" + name + ", doB=" + doB + ", gender=" + gender + ", clas=" + clas
+				+ ", phone=" + phone + ", email=" + email + ", namepj=" + namepj + ", codeLan=" + codeLan + ", process="
 				+ process + "]";
 	}
-//	@Id
+	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public String getIdSV() {
 		return idSV;
 	}
@@ -72,12 +75,6 @@ public class SinhVien {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	public String getClas() {
 		return clas;
 	}
@@ -89,6 +86,12 @@ public class SinhVien {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getNamepj() {
 		return namepj;

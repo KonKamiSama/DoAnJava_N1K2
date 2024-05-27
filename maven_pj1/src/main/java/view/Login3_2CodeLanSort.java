@@ -8,11 +8,11 @@ import java.awt.event.ActionListener;
 import java.util.Set;
 
 public class Login3_2CodeLanSort extends JFrame implements ActionListener {
-    private Login3_ManagementWindow login3;
+    private Login3_0ManagementWindow login3;
     private JList<String> languageList;
     private JButton selectButton;
 
-    public Login3_2CodeLanSort(Set<String> languages, Login3_ManagementWindow login3) {
+    public Login3_2CodeLanSort(Set<String> languages, Login3_0ManagementWindow login3) {
         this.login3 = login3;
         setTitle("Select Language");
         setSize(300, 400);

@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 public class Login3_4FindAnotherStudent extends JFrame implements ActionListener {
     private String[] studentData;
     private JButton findAnotherButton;
-    private Login3_ManagementWindow login3;
+    private Login3_0ManagementWindow login3;
 
-    public Login3_4FindAnotherStudent(String[] studentData, Login3_ManagementWindow login3) {
+    public Login3_4FindAnotherStudent(String[] studentData, Login3_0ManagementWindow login3) {
         this.studentData = studentData;
         this.login3 = login3;
         setTitle("Student Information");

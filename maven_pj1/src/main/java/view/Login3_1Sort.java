@@ -13,8 +13,10 @@ public class Login3_1Sort extends JFrame {
 	private JButton codeL; 
 	private JButton progress;
 	private ActionListener al;
+	private Login3_0ManagementWindow login3;
 	
-	public Login3_1Sort() {
+	public Login3_1Sort(Login3_0ManagementWindow login3_arg) {
+		this.login3 = login3_arg;
 		init();
 		this.setVisible(true);
 	}
@@ -23,7 +25,7 @@ public class Login3_1Sort extends JFrame {
 		this.setSize(650, 250);
 		this.setLocationRelativeTo(null);
 		this.setTitle("Sort By Type");
-		al = new Login3_2Controller(this);
+		al = new Login3_2Controller(this, login3);
 		
 		codeL = new JButton("Code Language");
 		codeL.addActionListener(al);

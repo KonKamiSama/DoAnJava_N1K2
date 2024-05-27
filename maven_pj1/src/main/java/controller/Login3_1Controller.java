@@ -6,17 +6,17 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import view.Login3_3FindStudent;
-import view.Login3_ManagementWindow;
+import view.Login3_0ManagementWindow;
 import view.Login4_1AddWindow;
 import view.Login4_2EditWindow;
 import view.Login3_1Sort;
 
 public class Login3_1Controller implements ActionListener {
-    private Login3_ManagementWindow login3;
+    private Login3_0ManagementWindow login3;
     private Login4_1AddWindow login4;
     private Login3_1Sort login43;
 
-    public Login3_1Controller(Login3_ManagementWindow login3) {
+    public Login3_1Controller(Login3_0ManagementWindow login3) {
         this.login3 = login3;
     }
 
@@ -33,9 +33,11 @@ public class Login3_1Controller implements ActionListener {
         } else if ("Refresh".equals(command)) {
         	login3.refresh();
         } else if ("Sort".equals(command)) {
-        	new Login3_1Sort();
+        	new Login3_1Sort(login3);
         } else if ("Find".equals(command)) {
         	new Login3_3FindStudent(login3);
+        } else if ("Exit".equals(command)) {
+        	login3.dispose();
         }
     }
 

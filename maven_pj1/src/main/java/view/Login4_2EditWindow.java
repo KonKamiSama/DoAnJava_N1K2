@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -40,6 +41,7 @@ public class Login4_2EditWindow extends JFrame {
 	private JButton update;	private ButtonGroup group;
 	private SinhVienDAO svd = new SinhVienDAO();
 	public SinhVien sv = new SinhVien();
+	private Login3_0ManagementWindow login3;
 	private ActionListener al;
 	
 	public Login4_2EditWindow() {
@@ -51,7 +53,7 @@ public class Login4_2EditWindow extends JFrame {
 		this.setSize(900, 580);
 		this.setLocationRelativeTo(null);
 		this.setTitle("Edit");
-		al = new Login4_2ControllerEdit(this);
+		al = new Login4_2ControllerEdit(this, login3);
 		
 		//generate
 		update = new JButton("Update");
@@ -110,7 +112,40 @@ public class Login4_2EditWindow extends JFrame {
 		this.add(female); 	this.add(male);
 		
 	}
-	public SinhVien I4() throws ParseException {
+//	public SinhVien I4Update() throws ParseException {
+//	    try {
+//	        String idSV = idSVB.getText();
+//	        String name = nameB.getText();
+//	        String date1 = doBB.getText();
+//	        java.sql.Date doB;
+//	        try {
+//	            doB = java.sql.Date.valueOf(date1);
+//	        } catch (IllegalArgumentException e) {
+//	            JOptionPane.showMessageDialog(this, "Wrong Date Format: '" + date1 + "' Correct Form: yyyy-MM-dd");
+//	            return null;
+//	        }
+//
+//	        ButtonModel genderModel = group.getSelection();
+//	        if (genderModel == null) {
+//	            JOptionPane.showMessageDialog(this, "Choose Your Gender !");
+//	            return null;
+//	        }
+//	        String gender = genderModel.getActionCommand();
+//	        String email = emailB.getText();
+//	        String clas = clasB.getText();
+//	        String phone = phoneB.getText();
+//	        String namepj = namepjB.getText();
+//	        String codeLan = codeLanB.getText();
+//	        String process = processB.getText();
+//	        sv = new SinhVien(idSV, name, doB, gender, email, clas, phone, namepj, codeLan, process);
+//	        svd.Edit(sv);
+//	        return sv;
+//	    } catch (Exception e) {
+//	        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+//	    }
+//	    return null;
+//	}
+	public SinhVien I4Update() throws ParseException {
 	    try {
 	        String idSV = idSVB.getText();
 	        String name = nameB.getText();
@@ -122,7 +157,6 @@ public class Login4_2EditWindow extends JFrame {
 	            JOptionPane.showMessageDialog(this, "Wrong Date Format: '" + date1 + "' Correct Form: yyyy-MM-dd");
 	            return null;
 	        }
-
 	        ButtonModel genderModel = group.getSelection();
 	        if (genderModel == null) {
 	            JOptionPane.showMessageDialog(this, "Choose Your Gender !");
@@ -135,14 +169,27 @@ public class Login4_2EditWindow extends JFrame {
 	        String namepj = namepjB.getText();
 	        String codeLan = codeLanB.getText();
 	        String process = processB.getText();
-	        sv = new SinhVien(idSV, name, doB, gender, email, clas, phone, namepj, codeLan, process);
-	        svd.Edit(sv);
-	        return sv;
+	        // tao 1 json de hung tt
+	        JSONObject jsonSv = new JSONObject();
+	        jsonSv.put("idSV", idSV);
+	        jsonSv.put("name", name);
+	        jsonSv.put("doB", doB.toString());
+	        jsonSv.put("gender", gender);
+	        jsonSv.put("email", email);
+	        jsonSv.put("clas", clas);
+	        jsonSv.put("phone", phone);
+	        jsonSv.put("namepj", namepj);
+	        jsonSv.put("codeLan", codeLan);
+	        jsonSv.put("process", process);
+	        // ep json nay thanh 1 kieu string
+	        svd.Edit(jsonSv.toString());
+	        return new SinhVien();
 	    } catch (Exception e) {
 	        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
 	    }
 	    return null;
 	}
+
 	 public void setEditData(Object[] rowData) {
 	        if (rowData == null || rowData.length < 10) {
 	            JOptionPane.showMessageDialog(this, "Invalid Data");
@@ -172,5 +219,4 @@ public class Login4_2EditWindow extends JFrame {
 	        codeLanB.setText((String) rowData[8]);
 	        processB.setText((String) rowData[9]);
 	    }
-
 }

@@ -2,6 +2,8 @@ package dao;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+
 import model.SinhVien;
 
 public interface SinhVienInterface <T>{
@@ -13,11 +15,11 @@ public interface SinhVienInterface <T>{
 	
 	public void Save (SinhVien t);
 	
-	public void Edit (SinhVien t);
+//	public void Edit (SinhVien t);
 	
-	public ArrayList<SinhVien> SelectAll ();
+//	public ArrayList<SinhVien> SelectAll ();
 	
-	public void Sort (SinhVien t);
-	
-	public void Find (SinhVien t);
+	public JSONArray SelectAll();
+
+	void Edit(String jsonData);
 }

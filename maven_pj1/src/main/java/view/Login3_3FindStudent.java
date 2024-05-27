@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 public class Login3_3FindStudent extends JFrame implements ActionListener {
     private JTextField studentIdField;
     private JButton findButton;
-    private Login3_ManagementWindow login3;
+    private Login3_0ManagementWindow login3;
 
-    public Login3_3FindStudent(Login3_ManagementWindow login3) {
+    public Login3_3FindStudent(Login3_0ManagementWindow login3) {
         this.login3 = login3;
         setTitle("Find Student");
         setSize(300, 100);
