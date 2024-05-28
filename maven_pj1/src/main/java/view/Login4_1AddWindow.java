@@ -16,6 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import org.json.JSONObject;
+
 import controller.Login4_1ControllerAdd;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -128,15 +131,25 @@ public class Login4_1AddWindow extends JFrame {
 			            return null;
 			        }
 			        String gender = genderModel.getActionCommand();
-			        String email = emailB.getText();
 			        String clas = clasB.getText();
 			        String phone = phoneB.getText();
+			        String email = emailB.getText();
 			        String namepj = namepjB.getText();
 			        String codeLan = codeLanB.getText();
 			        String process = processB.getText();
-			        sv = new SinhVien(idSV, name, doB, gender, email, clas, phone, namepj, codeLan, process);
-			        svd.Add(sv);
-			        return sv;
+			        
+			        JSONObject jsonSv = new JSONObject();
+			        jsonSv.put("idSV", idSV);
+			        jsonSv.put("name", name);
+			        jsonSv.put("doB", doB.toString());
+			        jsonSv.put("gender", gender);
+			        jsonSv.put("email", email);
+			        jsonSv.put("clas", clas);
+			        jsonSv.put("phone", phone);
+			        jsonSv.put("namepj", namepj);
+			        jsonSv.put("codeLan", codeLan);
+			        jsonSv.put("process", process);
+			        svd.Save(jsonSv.toString());
 			    } catch (Exception e) {
 			        JOptionPane.showMessageDialog(this, "Có lỗi xảy ra: " + e.getMessage());
 			    }

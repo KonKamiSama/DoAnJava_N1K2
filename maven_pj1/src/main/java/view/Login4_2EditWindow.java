@@ -183,7 +183,6 @@ public class Login4_2EditWindow extends JFrame {
 	        jsonSv.put("process", process);
 	        // ep json nay thanh 1 kieu string
 	        svd.Edit(jsonSv.toString());
-	        return new SinhVien();
 	    } catch (Exception e) {
 	        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
 	    }

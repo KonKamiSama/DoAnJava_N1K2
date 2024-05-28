@@ -158,7 +158,7 @@ public class Login3_0ManagementWindow extends JFrame {
 	        System.out.println(svJson.toString());
 	    }
 	}
-	
+
 //	public static void refresh() {
 //	    model.setRowCount(0);
 //	    Timer timer = new Timer(150, e -> {
@@ -187,7 +187,7 @@ public class Login3_0ManagementWindow extends JFrame {
 	public static void refresh() {
 		model.setRowCount(0);
 		Timer timer = new Timer(150, e -> {
-			JSONArray jsonArray = svd.SelectAll();  // Giả sử SelectAll trả về JSONArray
+			JSONArray jsonArray = svd.SelectAll();
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject svJson = jsonArray.getJSONObject(i);
 				model.addRow(new Object[]{
@@ -210,7 +210,6 @@ public class Login3_0ManagementWindow extends JFrame {
 		timer.start();
 	}
 
-
 	public void delete() {
         int n = table.getSelectedRow();
         if (n >= 0) {
@@ -225,15 +224,15 @@ public class Login3_0ManagementWindow extends JFrame {
         }
     }
 	
-	public void addDataFromUserInput(Object[] userInputData) {
-	        model.addRow(userInputData);
-	        editableRowIndex = model.getRowCount() - 1;
-	    }
-	
-	public void processUserInput(Object[] userInputData) {
-	        addDataFromUserInput(userInputData);
-	        ((CustomTableModel) table.getModel()).setEditableRow(editableRowIndex);
-	    }
+//	public void addDataFromUserInput(Object[] userInputData) {
+//	        model.addRow(userInputData);
+//	        editableRowIndex = model.getRowCount() - 1;
+//	    }
+//
+//	public void processUserInput(Object[] userInputData) {
+//	        addDataFromUserInput(userInputData);
+//	        ((CustomTableModel) table.getModel()).setEditableRow(editableRowIndex);
+//	    }
 
 	public void sortByProcess() {
 		System.out.println("123 ");
@@ -257,7 +256,7 @@ public class Login3_0ManagementWindow extends JFrame {
 	public Set<String> getAllLanguages() {
 	    Set<String> languages = new HashSet<>();
 	    for (int i = 0; i < model.getRowCount(); i++) {
-	        languages.add((String) model.getValueAt(i, 8));  // Giả sử cột "Code Language" là cột thứ 8
+	        languages.add((String) model.getValueAt(i, 8));
 	    }
 	    return languages;
 	}

@@ -31,7 +31,7 @@ import database.Connect;
 
 public class SinhVienDAO implements SinhVienInterface <SinhVien> {
 	@Override
-	public void Add(SinhVien t) {
+	public void Save(SinhVien t) {
 	    Transaction transaction = null;
 	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 	        transaction = session.beginTransaction();
@@ -67,26 +67,26 @@ public class SinhVienDAO implements SinhVienInterface <SinhVien> {
 	    }
 	}
 	
-	@Override
-	public void Save(SinhVien t) {
-		// TODO Auto-generated method stub
-		try {
-			//b1
-			Connection con = Connect.getConnection();
-			//B2
-			Statement st = con.createStatement();
-			//B3
-			String sql = "SELECT * FROM sinhvien";
-			//B4
-			System.out.println("You have done somthing: " + sql);
-			//B5
-			Connect.closeConnection(con);
-			System.out.println(con);
-		} catch (SQLException e) {
-			e.getMessage();		
-			}
-	}
-
+	public void Save(String jsonData) {
+			// TODO: handle exception
+		}
+//		// TODO Auto-generated method stub
+//		try {
+//			//b1
+//			Connection con = Connect.getConnection();
+//			//B2
+//			Statement st = con.createStatement();
+//			//B3
+//			String sql = "SELECT * FROM sinhvien";
+//			//B4
+//			System.out.println("You have done somthing: " + sql);
+//			//B5
+//			Connect.closeConnection(con);
+//			System.out.println(con);
+//		} catch (SQLException e) {
+//			e.getMessage();		
+//			}
+	
 	@Override
 	public void Edit(String jsonData) {
 	    Transaction transaction = null;
@@ -99,12 +99,11 @@ public class SinhVienDAO implements SinhVienInterface <SinhVien> {
 	        // Lấy ID từ JSON và tìm kiếm SinhVien tương ứng
 	        String idSV = jsonSv.getString("idSV");
 	        SinhVien sv = session.get(SinhVien.class, idSV);
-	        if (sv != null) {
 	            // Cập nhật thông tin từ JSON
 	            sv.setName(jsonSv.getString("name"));
 	            sv.setGender(jsonSv.getString("gender"));
 	            try {
-	                sv.setDoB(Date.valueOf(jsonSv.getString("doB"))); // Chuyển đổi chuỗi thành java.sql.Date
+	                sv.setDoB(Date.valueOf(jsonSv.getString("doB")));
 	            } catch (IllegalArgumentException e) {
 	                System.out.println("Error: Invalid date format. Required format is yyyy-MM-dd.");
 	                return;
@@ -118,10 +117,7 @@ public class SinhVienDAO implements SinhVienInterface <SinhVien> {
 	            session.update(sv);
 	            transaction.commit();
 	            System.out.println("SinhVien updated successfully!");
-	        } else {
-	            System.out.println("SinhVien not found with ID: " + idSV);
-	        }
-	    } catch (Exception e) {
+	    	} catch (Exception e) {
 	        if (transaction != null) {
 	            transaction.rollback();
 	        }
