@@ -16,6 +16,9 @@ import java.util.HashSet;
 import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import client.Client;
+
 import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
@@ -39,7 +42,7 @@ public class Login3_0ManagementWindow extends JFrame {
 	private JButton refresh;						private JButton exit;
 	private ArrayList<SinhVien> svList2;			private static SinhVienDAO svd;
 	private static JTable table;					private ActionListener al;
-	private static int editableRowIndex = -1;		
+	private static int editableRowIndex = -1;		private Client client = new Client();		
 
 	public Login3_0ManagementWindow() {
 		init();
@@ -214,10 +217,14 @@ public class Login3_0ManagementWindow extends JFrame {
         int n = table.getSelectedRow();
         if (n >= 0) {
             String studentID = (String) model.getValueAt(n, 0);
-            SinhVien sv = new SinhVien();
-            sv.setIdSV(studentID);
-            svd.Delete(sv);
+//            SinhVien sv = new SinhVien();
+//            sv.setIdSV(studentID);
+            JSONObject jsonSv = new JSONObject();
+            jsonSv.put("action", "Delete");
+            jsonSv.put("idSV", studentID);
             model.removeRow(n);
+//            svd.Delete(jsonSv.toString());
+            client.sentData(jsonSv);
             JOptionPane.showMessageDialog(this, "Delete Successfully !");
         } else {
             JOptionPane.showMessageDialog(this, "Pick One To Delete !");

@@ -9,6 +9,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+
+import client.Client;
+
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -43,6 +46,7 @@ public class Login4_2EditWindow extends JFrame {
 	public SinhVien sv = new SinhVien();
 	private Login3_0ManagementWindow login3;
 	private ActionListener al;
+	private Client client = new Client();
 	
 	public Login4_2EditWindow() {
 		init();
@@ -171,6 +175,7 @@ public class Login4_2EditWindow extends JFrame {
 	        String process = processB.getText();
 	        // tao 1 json de hung tt
 	        JSONObject jsonSv = new JSONObject();
+	        jsonSv.put("action", "Edit");
 	        jsonSv.put("idSV", idSV);
 	        jsonSv.put("name", name);
 	        jsonSv.put("doB", doB.toString());
@@ -182,7 +187,9 @@ public class Login4_2EditWindow extends JFrame {
 	        jsonSv.put("codeLan", codeLan);
 	        jsonSv.put("process", process);
 	        // ep json nay thanh 1 kieu string
-	        svd.Edit(jsonSv.toString());
+	        client.sentData(jsonSv);
+//	        svd.Edit(jsonSv.toString());
+	        
 	    } catch (Exception e) {
 	        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
 	    }

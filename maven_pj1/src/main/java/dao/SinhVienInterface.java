@@ -8,9 +8,13 @@ import model.SinhVien;
 
 public interface SinhVienInterface <T>{
 	
-	public void Save (SinhVien t);
+//	public void Save (SinhVien t);
 	
-	public void Delete (SinhVien t);
+	public void Save (String jsonData);
+	
+//	public void Delete (SinhVien t);
+	
+	public void Delete (String jsonData);
 	
 //	public ArrayList<SinhVien> SelectAll ();
 	

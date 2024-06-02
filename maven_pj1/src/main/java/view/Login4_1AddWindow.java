@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import org.json.JSONObject;
 
+import client.Client;
 import controller.Login4_1ControllerAdd;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,6 +44,7 @@ public class Login4_1AddWindow extends JFrame {
 	private SinhVienDAO svd = new SinhVienDAO();
 	public SinhVien sv = new SinhVien();
 	private ActionListener al;
+	private Client client = new Client();
 	
 	public Login4_1AddWindow() {
 		init();
@@ -137,8 +139,9 @@ public class Login4_1AddWindow extends JFrame {
 			        String namepj = namepjB.getText();
 			        String codeLan = codeLanB.getText();
 			        String process = processB.getText();
-			        
+			        // tao 1 json de hung tt
 			        JSONObject jsonSv = new JSONObject();
+			        jsonSv.put("action", "Save");
 			        jsonSv.put("idSV", idSV);
 			        jsonSv.put("name", name);
 			        jsonSv.put("doB", doB.toString());
@@ -149,7 +152,8 @@ public class Login4_1AddWindow extends JFrame {
 			        jsonSv.put("namepj", namepj);
 			        jsonSv.put("codeLan", codeLan);
 			        jsonSv.put("process", process);
-			        svd.Save(jsonSv.toString());
+//			        svd.Save(jsonSv.toString());
+			        client.sentData(jsonSv);
 			    } catch (Exception e) {
 			        JOptionPane.showMessageDialog(this, "Có lỗi xảy ra: " + e.getMessage());
 			    }
