@@ -42,7 +42,7 @@ public class Login3_0ManagementWindow extends JFrame {
 	private JButton refresh;						private JButton exit;
 	private ArrayList<SinhVien> svList2;			private static SinhVienDAO svd;
 	private static JTable table;					private ActionListener al;
-	private static int editableRowIndex = -1;		private Client client = new Client();		
+	private static int editableRowIndex = -1;		private static Client client = new Client();		
 
 	public Login3_0ManagementWindow() {
 		init();
@@ -142,7 +142,8 @@ public class Login3_0ManagementWindow extends JFrame {
 	
 	public static void Show() {
 	    model.setRowCount(0);
-	    JSONArray jsonArray = svd.SelectAll();
+//	    JSONArray jsonArray = svd.SelectAll();
+		JSONArray jsonArray = client.getData();
 	    for (int i = 0; i < jsonArray.length(); i++) {
 	        JSONObject svJson = jsonArray.getJSONObject(i);
 	        Object[] rowData = new Object[]{
@@ -190,7 +191,8 @@ public class Login3_0ManagementWindow extends JFrame {
 	public static void refresh() {
 		model.setRowCount(0);
 		Timer timer = new Timer(150, e -> {
-			JSONArray jsonArray = svd.SelectAll();
+//			JSONArray jsonArray = svd.SelectAll();
+			JSONArray jsonArray = client.getData();
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject svJson = jsonArray.getJSONObject(i);
 				model.addRow(new Object[]{
@@ -231,15 +233,15 @@ public class Login3_0ManagementWindow extends JFrame {
         }
     }
 	
-//	public void addDataFromUserInput(Object[] userInputData) {
-//	        model.addRow(userInputData);
-//	        editableRowIndex = model.getRowCount() - 1;
-//	    }
-//
-//	public void processUserInput(Object[] userInputData) {
-//	        addDataFromUserInput(userInputData);
-//	        ((CustomTableModel) table.getModel()).setEditableRow(editableRowIndex);
-//	    }
+	public void addDataFromUserInput(Object[] userInputData) {
+	        model.addRow(userInputData);
+	        editableRowIndex = model.getRowCount() - 1;
+	    }
+
+	public void processUserInput(Object[] userInputData) {
+	        addDataFromUserInput(userInputData);
+	        ((CustomTableModel) table.getModel()).setEditableRow(editableRowIndex);
+	    }
 
 	public void sortByProcess() {
 		System.out.println("123 ");
