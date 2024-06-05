@@ -1,28 +1,43 @@
 package view;
 
+import java.awt.Component;
+import database.Connect;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import client.Client;
+
+import javax.swing.JTextArea;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import controller.Login1Controller;
 import controller.Login3_1Controller;
+import controller.Login4_1ControllerAdd;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import view.Login4_1AddWindow;
 
 public class Login3_0ManagementWindow extends JFrame {
 	private JLabel welcome;							public static DefaultTableModel model;
 	private JButton add; private JButton edit;		private JButton delete;
 	private JButton sort;							private JButton find;
 	private JButton refresh;						private JButton exit;
+	private ArrayList<SinhVien> svList2;			private static SinhVienDAO svd;
 	private static JTable table;					private ActionListener al;
 	private static int editableRowIndex = -1;		private static Client client = new Client();		
 
@@ -67,7 +82,7 @@ public class Login3_0ManagementWindow extends JFrame {
 		//generate
 		welcome = new JLabel("Management Table");	exit = new JButton("Exit");
 		add = new JButton("Add"); edit = new JButton ("Edit"); delete = new JButton("Delete"); find = new JButton("Find");
-		find =  new JButton ("Find"); sort = new JButton("Sort"); refresh = new JButton("Refresh");
+		svd = new SinhVienDAO(); find =  new JButton ("Find"); sort = new JButton("Sort"); refresh = new JButton("Refresh");
 
         //layout
         this.setLayout(null);
@@ -108,23 +123,9 @@ public class Login3_0ManagementWindow extends JFrame {
 	public DefaultTableModel getModel() {
 	        return model;
 	    }
-	
-//	public static void Show() {
-//		// TODO Auto-generated method stub
-//		model.setRowCount(0);
-//		for (SinhVien sv : svd.SelectAll()) {
-//			Object [] RowData = new Object [] {
-//			sv.getIdSV(), sv.getName(), sv.getGender(), sv.getDoB(),
-//			sv.getClas(), sv.getPhone(), sv.getEmail(), sv.getNamepj(), sv.getCodeLan(), sv.getProcess()
-//		};
-//		model.addRow(RowData);
-//		System.out.println(sv.toString());
-//			}
-//	}
-	
+
 	public static void Show() {
 	    model.setRowCount(0);
-//	    JSONArray jsonArray = svd.SelectAll();
 		JSONArray jsonArray = client.getData();
 	    for (int i = 0; i < jsonArray.length(); i++) {
 	        JSONObject svJson = jsonArray.getJSONObject(i);
@@ -145,35 +146,9 @@ public class Login3_0ManagementWindow extends JFrame {
 	    }
 	}
 
-//	public static void refresh() {
-//	    model.setRowCount(0);
-//	    Timer timer = new Timer(150, e -> {
-//	        ArrayList<SinhVien> svList = svd.SelectAll();
-//	        for (SinhVien sv : svList) {
-//	            model.addRow(new Object[]{
-//	                sv.getIdSV(),
-//	                sv.getName(),
-//	                sv.getGender(),
-//	                sv.getDoB(),
-//	                sv.getClas(),
-//	                sv.getPhone(),
-//	                sv.getEmail(),
-//	                sv.getNamepj(),
-//	                sv.getCodeLan(),
-//	                sv.getProcess()
-//	            });
-//	        }
-//	        table.repaint();
-//	        table.revalidate();
-//	    });
-//	    timer.setRepeats(false);
-//	    timer.start();
-//	}
-
 	public static void refresh() {
 		model.setRowCount(0);
 		Timer timer = new Timer(150, e -> {
-//			JSONArray jsonArray = svd.SelectAll();
 			JSONArray jsonArray = client.getData();
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject svJson = jsonArray.getJSONObject(i);
@@ -201,8 +176,6 @@ public class Login3_0ManagementWindow extends JFrame {
         int n = table.getSelectedRow();
         if (n >= 0) {
             String studentID = (String) model.getValueAt(n, 0);
-//            SinhVien sv = new SinhVien();
-//            sv.setIdSV(studentID);
             JSONObject jsonSv = new JSONObject();
             jsonSv.put("action", "Delete");
             jsonSv.put("idSV", studentID);

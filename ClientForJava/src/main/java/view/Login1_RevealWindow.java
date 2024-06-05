@@ -18,7 +18,7 @@ public class Login1_RevealWindow extends JFrame {
 	public void init() {
 		
 		this.setLayout(null);
-		this.setTitle("Login");
+		this.setTitle("Reveal");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(350, 200);
 		this.setLocationRelativeTo(null);

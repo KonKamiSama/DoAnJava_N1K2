@@ -2,15 +2,13 @@ package view;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import javax.swing.*;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import client.Client;
 import controller.Login2Controller;
-import database.Connect;
 
 public class Login2_Login extends JFrame{
 	private JLabel user;
@@ -19,6 +17,7 @@ public class Login2_Login extends JFrame{
 	private JPasswordField enterPassword;
 	private JButton login;
 	private ActionListener al;
+	private Client client = new Client();
 	
 	public Login2_Login() {
 		init();
@@ -50,39 +49,60 @@ public class Login2_Login extends JFrame{
 		login.setBounds(150, 170, 100, 50);
 		
 	}
+//	public boolean checkLogin() {
+//		  Connection con = null;
+//		  PreparedStatement ps = null;
+//		  ResultSet rs = null;
+//		try {
+//			con = Connect.getConnection();
+//			String sql = "SELECT * FROM account WHERE user =? AND password =?";
+//			ps = con.prepareStatement(sql);
+//			ps.setString(1, enterUser.getText());
+//			ps.setString(2, new String(enterPassword.getPassword()));
+//			rs = ps.executeQuery();
+//			
+//			while (rs.next()) {
+//				String User = rs.getString("user");
+//				String Pass = rs.getString("password");
+//				if (enterUser.getText().equals(User) && new String (enterPassword.getPassword()).equals(Pass)) {
+//					JOptionPane.showMessageDialog(this, "Login Successfully !");
+//					System.out.println("You have done somthing: " + sql);
+//					return true;
+//				} 
+//			}
+//			return false;
+//		} catch (SQLException e) {
+//		        e.printStackTrace();
+//			return false;
+//		}  finally {
+//	        try {
+//	            if (rs != null) rs.close();
+//	            if (ps != null) ps.close();
+//	            if (con != null) con.close();
+//	        } catch (SQLException e) {
+//	            e.printStackTrace();
+//			}
+//		}
+//	}
+
 	public boolean checkLogin() {
-		  Connection con = null;
-		  PreparedStatement ps = null;
-		  ResultSet rs = null;
-		try {
-			con = Connect.getConnection();
-			String sql = "SELECT * FROM account WHERE user =? AND password =?";
-			ps = con.prepareStatement(sql);
-			ps.setString(1, enterUser.getText());
-			ps.setString(2, new String(enterPassword.getPassword()));
-			rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				String User = rs.getString("user");
-				String Pass = rs.getString("password");
-				if (enterUser.getText().equals(User) && new String (enterPassword.getPassword()).equals(Pass)) {
-					JOptionPane.showMessageDialog(this, "Login Successfully !");
-					System.out.println("You have done somthing: " + sql);
-					return true;
-				} 
-			}
-			return false;
-		} catch (SQLException e) {
-		        e.printStackTrace();
-			return false;
-		}  finally {
-	        try {
-	            if (rs != null) rs.close();
-	            if (ps != null) ps.close();
-	            if (con != null) con.close();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-			}
-		}
+		JSONObject user = new JSONObject();
+		user.put("action", "Check");
+		client.sentData(user);
+	    JSONArray users = client.getData();
+	    String usernameInput = enterUser.getText();
+	    String passwordInput = new String(enterPassword.getPassword());
+
+	    for (int i = 0; i < users.length(); i++) {
+	        JSONObject userCheck = users.getJSONObject(i);
+	        String username = userCheck.getString("username");
+	        String password = userCheck.getString("password");
+	        if (usernameInput.equals(username) && passwordInput.equals(password)) {
+	            JOptionPane.showMessageDialog(this, "Login Successfully!");
+	            return true;
+	        }
+	    }
+	    JOptionPane.showMessageDialog(this, "Login Failed.");
+	    return false;
 	}
 }

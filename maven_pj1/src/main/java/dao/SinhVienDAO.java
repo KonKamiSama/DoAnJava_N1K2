@@ -191,4 +191,24 @@ public class SinhVienDAO implements SinhVienInterface<SinhVien> {
 			return null;
 		}
 	}
+
+	public JSONArray selectAllAccounts() {
+	    JSONArray jsonArray = new JSONArray();
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        List<Account> accountList = session.createQuery("from Account", Account.class).list();
+	        for (Account account : accountList) {
+	            JSONObject jsonAccount = new JSONObject();
+	            jsonAccount.put("id", account.getId());
+	            jsonAccount.put("username", account.getUsername());
+	            jsonAccount.put("password", account.getPassword());
+	            jsonAccount.put("email", account.getEmail());
+	            jsonArray.put(jsonAccount);
+	        }
+	        return jsonArray;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+
 }
