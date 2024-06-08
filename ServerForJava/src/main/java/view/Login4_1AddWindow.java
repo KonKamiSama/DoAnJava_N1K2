@@ -40,8 +40,6 @@ public class Login4_1AddWindow extends JFrame {
 	private JLabel process;	private JTextField processB;
 	private JLabel codeLan;	private JTextField codeLanB;
 	private JButton save;	private ButtonGroup group;
-	public static ArrayList<SinhVien> msv = new ArrayList<>();
-	private SinhVienDAO svd = new SinhVienDAO();
 	public SinhVien sv = new SinhVien();
 	private ActionListener al;
 	private Client client = new Client();
@@ -153,7 +151,7 @@ public class Login4_1AddWindow extends JFrame {
 			        jsonSv.put("codeLan", codeLan);
 			        jsonSv.put("process", process);
 //			        svd.Save(jsonSv.toString());
-			        client.sentData(jsonSv);
+			        client.sendData(jsonSv);
 			    } catch (Exception e) {
 			        JOptionPane.showMessageDialog(this, "Có lỗi xảy ra: " + e.getMessage());
 			    }

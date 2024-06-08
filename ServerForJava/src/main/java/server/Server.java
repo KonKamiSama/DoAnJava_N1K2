@@ -1,6 +1,8 @@
 package server;
 
 import java.io.BufferedReader;
+import client.*;
+
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -13,53 +15,73 @@ import dao.SinhVienDAO;
 
 public class Server {
 	private ServerSocket serverSocket;
-	private Socket clientSocket;
-	private PrintWriter out;
-	private BufferedReader in;
-	private SinhVienDAO svd;
+	private Client client;
 
-	public void startServer(int port) {
+	public Server(Client client){
+		this.client = client;
+		startServer();
+	}
+
+	public void startServer() {
 		try {
 			serverSocket = new ServerSocket(7331);
 			System.out.println("Server started on port " + 7331);
+			client.connectServer();
 			while (true) {
-				clientSocket = serverSocket.accept();
-				try {
-					out = new PrintWriter(clientSocket.getOutputStream(), true);
-					in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-					System.out.println("Client connected: " + clientSocket.getInetAddress().getHostAddress());
-					String data = in.readLine();
-					out.println("Data received " + data);
-					JSONObject jsonObject = new JSONObject(data);
-					String action = jsonObject.getString("action");
-
-					switch (action) {
-					case "Edit":
-						svd.Edit(data);
-						break;
-					case "Save":
-						svd.Save(data);
-						break;
-					case "Delete":
-						svd.Delete(data);
-						break;
-					case "Show":
-						JSONArray jsArray = svd.SelectAll();
-						out.println(jsArray);
-						break;
-					case "Check":
-						JSONArray jsAccount = svd.selectAllAccounts();
-						out.println(jsAccount);
-						break;
-					}
-				} catch (Exception e) {
-					System.out.println("Connection failed: " + e.getMessage());
-					e.printStackTrace();
-				}
+				Socket clientSocket = serverSocket.accept();
+				System.out.println("Client connected: " + clientSocket.getInetAddress().getHostAddress());
+				new ClientHandler(clientSocket).start();
 			}
 		} catch (Exception e) {
-			System.out.println("Could not start server: " + e.getMessage());
+			System.out.println("chua khoi tao sv: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
+
+	private class ClientHandler extends Thread {
+		private Socket clientSocket;
+		private PrintWriter out;
+		private BufferedReader in;
+		private SinhVienDAO svd;
+
+		public ClientHandler(Socket socket) {
+			this.clientSocket = socket;
+		}
+
+		 public void run() {
+	            try {
+	                out = new PrintWriter(clientSocket.getOutputStream(), true);
+	                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	                String data = in.readLine();
+	                while (data != null) {
+	                    JSONObject jsonObject = new JSONObject(data);
+	                    String action = jsonObject.getString("action");
+
+	                        switch (action) {
+	                        case "Edit":
+	                            svd.Edit(data);
+	                            break;
+	                        case "Save":
+	                            svd.Save(data);
+	                            break;
+	                        case "Delete":
+	                            svd.Delete(data);
+	                            break;
+	                        case "Show":
+	                            JSONArray jsArray = svd.SelectAll();
+	                            out.println(jsArray);
+	                            break;
+	                        case "Check":
+	                            JSONArray jsAccount = svd.selectAllAccounts();
+	                            out.println(jsAccount);
+	                            break;
+	                        }
+	                    }
+	                    data = in.readLine();
+	            } catch (Exception e) {
+	                System.out.println("Connection failed: " + e.getMessage());
+	                e.printStackTrace();
+	            }
+	        }
+	    }
 }

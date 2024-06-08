@@ -187,7 +187,7 @@ public class Login4_2EditWindow extends JFrame {
 	        jsonSv.put("codeLan", codeLan);
 	        jsonSv.put("process", process);
 	        // ep json nay thanh 1 kieu string
-	        client.sentData(jsonSv);
+	        client.sendData(jsonSv);
 //	        svd.Edit(jsonSv.toString());
 	        
 	    } catch (Exception e) {

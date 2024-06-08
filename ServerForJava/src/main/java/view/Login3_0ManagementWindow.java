@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import client.Client;
 import javax.swing.table.TableModel;
@@ -19,14 +20,17 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class Login3_0ManagementWindow extends JFrame {
-	private JLabel welcome;							public static DefaultTableModel model;
-	private JButton add; private JButton edit;		private JButton delete;
-	private JButton sort;							private JButton find;
-	private JButton refresh;						private JButton exit;
-	private static JTable table;					private ActionListener al;
-	private static int editableRowIndex = -1;		private static Client client = new Client();		
+	private JLabel welcome;
+    public static DefaultTableModel model;
+    private JButton add, edit, delete, sort, find, refresh, exit;
+    private static JTable table;
+    private ActionListener al;
+    private static int editableRowIndex = -1;
+    private static Client client = new Client();	
+    private static JSONArray jsonArray;
 
 	public Login3_0ManagementWindow() {
+//		client.connectServer();
 		init();
 		this.setVisible(true);
 		Show();	
@@ -89,7 +93,7 @@ public class Login3_0ManagementWindow extends JFrame {
         this.add(welcome);		exit.addActionListener(al);			
         						delete.addActionListener(al);
         
-        if (Login1Controller.getCount() == 1 ) {
+        if (Login1Controller.getCount() == 1 ) {	
         	this.add(delete);
         	exit.setBounds(610, 695, 100, 50);
         	this.add(exit);
@@ -122,10 +126,11 @@ public class Login3_0ManagementWindow extends JFrame {
 //			}
 //	}
 	
-	public static void Show() {
+	public static void Show() throws JSONException {
 	    model.setRowCount(0);
 //	    JSONArray jsonArray = svd.SelectAll();
-		JSONArray jsonArray = client.getData();
+//	    client.connectServer();
+		jsonArray = new JSONArray(client.getData());
 	    for (int i = 0; i < jsonArray.length(); i++) {
 	        JSONObject svJson = jsonArray.getJSONObject(i);
 	        Object[] rowData = new Object[]{
@@ -208,7 +213,7 @@ public class Login3_0ManagementWindow extends JFrame {
             jsonSv.put("idSV", studentID);
             model.removeRow(n);
 //            svd.Delete(jsonSv.toString());
-            client.sentData(jsonSv);
+            client.sendData(jsonSv);
             JOptionPane.showMessageDialog(this, "Delete Successfully !");
         } else {
             JOptionPane.showMessageDialog(this, "Pick One To Delete !");
