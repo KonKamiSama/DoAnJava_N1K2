@@ -21,8 +21,6 @@ public class Client {
 			this.out = new PrintWriter(socket.getOutputStream(), true);
 			this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			System.out.println("Connected to server.");
-			String response = in.readLine();
-			System.out.println("Response from server: " + response);
 		} catch (IOException e) {
 			System.out.println("Connection to server failed: " + e.getMessage());
 			e.printStackTrace();

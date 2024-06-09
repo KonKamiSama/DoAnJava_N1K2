@@ -56,7 +56,7 @@ public class Login2_Login extends JFrame{
 	public boolean checkLogin() {
 		JSONObject user = new JSONObject();
 		user.put("action", "Check");
-		client.connectServer();
+//		client.connectServer();
 		client.sendData(user);
 	    JSONArray users = client.getData();
 	    String usernameInput = enterUser.getText();
