@@ -30,7 +30,6 @@ public class Login3_0ManagementWindow extends JFrame {
     private static JSONArray jsonArray;
 
 	public Login3_0ManagementWindow() {
-//		client.connectServer();
 		init();
 		this.setVisible(true);
 		Show();	
@@ -128,8 +127,6 @@ public class Login3_0ManagementWindow extends JFrame {
 	
 	public static void Show() throws JSONException {
 	    model.setRowCount(0);
-//	    JSONArray jsonArray = svd.SelectAll();
-//	    client.connectServer();
 		jsonArray = new JSONArray(client.getData());
 	    for (int i = 0; i < jsonArray.length(); i++) {
 	        JSONObject svJson = jsonArray.getJSONObject(i);

@@ -3,25 +3,19 @@ package model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Column;
 
 @Entity
-@Table(name = "account")
+@Table(name = "Account")
 public class Account {
     @Id
-    private int id;
+    @Column(name = "user")
     private String username;
+
+    @Column(name = "password")
     private String password;
-    private String email;
 
-    // Getters and setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    // Getters and Setters
     public String getUsername() {
         return username;
     }
@@ -36,13 +30,5 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

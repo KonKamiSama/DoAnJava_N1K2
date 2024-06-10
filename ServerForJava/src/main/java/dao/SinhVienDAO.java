@@ -192,23 +192,30 @@ public class SinhVienDAO implements SinhVienInterface<SinhVien> {
 		}
 	}
 
-	public JSONArray selectAllAccounts() {
-	    JSONArray jsonArray = new JSONArray();
-	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-	        List<Account> accountList = session.createQuery("from Account", Account.class).list();
-	        for (Account account : accountList) {
-	            JSONObject jsonAccount = new JSONObject();
-	            jsonAccount.put("id", account.getId());
-	            jsonAccount.put("username", account.getUsername());
-	            jsonAccount.put("password", account.getPassword());
-	            jsonAccount.put("email", account.getEmail());
-	            jsonArray.put(jsonAccount);
-	        }
-	        return jsonArray;
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return null;
-	    }
-	}
-
+		public JSONArray selectAllAccounts() {
+			Transaction transaction = null;
+			List<Account> accounts = null;
+			JSONArray jsArray = new JSONArray();
+			try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+				transaction = session.beginTransaction();
+				accounts = session.createQuery("from Account", Account.class).list();
+				transaction.commit();
+			} catch (Exception e) {
+				if (transaction != null) {
+					transaction.rollback();
+				}
+				e.printStackTrace();
+			}
+			if (accounts != null && !accounts.isEmpty()) {
+				for (Account account : accounts) {
+					JSONObject jsonObj = new JSONObject();
+					jsonObj.put("username", account.getUsername());
+					jsonObj.put("password", account.getPassword());
+					jsArray.put(jsonObj);
+				}
+			} else {
+				System.out.println("No accounts found in the database.");
+			}
+			return jsArray;
+		}
 }

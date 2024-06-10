@@ -1,8 +1,10 @@
 package client;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,33 +23,28 @@ public class Client {
 			this.out = new PrintWriter(socket.getOutputStream(), true);
 			this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			System.out.println("Connected to server.");
+			out.println("connected");
 		} catch (IOException e) {
 			System.out.println("Connection to server failed: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
-	public void sendData(JSONObject jsonSv) {	
+	public void sendData(JSONObject jsonSv) {
 		out.println(jsonSv.toString());
-		try {
-			String response = in.readLine();
-			System.out.println("Response from server: " + response);
-		} catch (IOException e) {
-			System.out.println("Error receiving data from server: " + e.getMessage());
-			e.printStackTrace();
-		}
 	}
 
 	public JSONArray getData() {
+		JSONArray response = new JSONArray();
 		try {
 			String data = in.readLine();
 			System.out.println("Data received from server: " + data);
-			return new JSONArray(data);
+			response = new JSONArray(data);
 		} catch (Exception e) {
 			System.out.println("Failed to receive data from server: " + e.getMessage());
 			e.printStackTrace();
-			return null;
 		}
+		return response;
 	}
 
 	public void closeConnection() {

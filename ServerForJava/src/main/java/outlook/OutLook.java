@@ -1,7 +1,6 @@
 package outlook;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 
 import client.Client;
 import database.Connect;
@@ -14,9 +13,21 @@ public class OutLook {
 		try {
 			String src = "com.jtattoo.plaf.acryl.AcrylLookAndFeel";
 			UIManager.setLookAndFeel(src);
-			new Login1_RevealWindow();
-//		new Login3_0ManagementWindow();
-//		new Login4_3Sort();
+			Thread serverThread = new Thread(() -> {
+				try {
+					Client client = new Client();
+					new Server(client);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			serverThread.start();
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			SwingUtilities.invokeLater(() -> new Login1_RevealWindow());
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
