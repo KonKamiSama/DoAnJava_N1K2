@@ -3,22 +3,16 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-
-import javax.swing.JOptionPane;
-import dao.SinhVienDAO;
 import model.SinhVien;
-import view.Login4_1AddWindow;
 import view.Login4_2EditWindow;
 import view.Login3_0ManagementWindow;
 
 public class Login4_2ControllerEdit implements ActionListener {
     private Login4_2EditWindow login4;
-    private SinhVienDAO buttonDao;
     private Login3_0ManagementWindow login3;
 
     public Login4_2ControllerEdit(Login4_2EditWindow login4_EditWindow, Login3_0ManagementWindow login3argu) {
         this.login4 = login4_EditWindow;
-        this.buttonDao = new SinhVienDAO();
         this.login3 = login3argu;
     }
     @Override

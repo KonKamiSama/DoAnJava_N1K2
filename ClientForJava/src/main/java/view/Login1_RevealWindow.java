@@ -1,14 +1,8 @@
 package view;
 
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
 import javax.swing.*;
-
-import client.Client;
 import controller.Login1Controller;
-import server.Server;
 
 public class Login1_RevealWindow extends JFrame {
 	private JButton GV;

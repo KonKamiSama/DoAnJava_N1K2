@@ -1,20 +1,10 @@
 package model;
 
 import java.sql.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.swing.JLabel;
 
-@Entity
 public class SinhVien {
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String idSV;
-	
 	private String name;
 	private Date doB;
 	private String gender;
@@ -49,8 +39,7 @@ public class SinhVien {
 				+ ", phone=" + phone + ", email=" + email + ", namepj=" + namepj + ", codeLan=" + codeLan + ", process="
 				+ process + "]";
 	}
-	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
 	public String getIdSV() {
 		return idSV;
 	}

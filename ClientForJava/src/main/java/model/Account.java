@@ -1,18 +1,6 @@
 package model;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
-
-@Entity
-@Table(name = "Account")
 public class Account {
-    @Id
-    @Column(name = "user")
     private String username;
-
-    @Column(name = "password")
     private String password;
 
     // Getters and Setters

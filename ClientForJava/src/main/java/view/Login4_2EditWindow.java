@@ -2,16 +2,11 @@ package view;
 
 import java.awt.Font;
 import java.text.SimpleDateFormat;
-
-import dao.SinhVienDAO;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.ArrayList;
-
 import org.json.JSONObject;
-
 import client.Client;
-
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -42,7 +37,6 @@ public class Login4_2EditWindow extends JFrame {
 	private JLabel process;	private JTextField processB;
 	private JLabel codeLan;	private JTextField codeLanB;
 	private JButton update;	private ButtonGroup group;
-	private SinhVienDAO svd = new SinhVienDAO();
 	public SinhVien sv = new SinhVien();
 	private Login3_0ManagementWindow login3;
 	private ActionListener al;
