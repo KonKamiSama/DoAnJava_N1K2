@@ -1,8 +1,6 @@
 package outlook;
 
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import view.*;
 
 public class OutLook {
