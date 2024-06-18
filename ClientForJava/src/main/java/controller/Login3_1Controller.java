@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import client.Client;
 import view.Login3_3FindStudent;
 import view.Login3_0ManagementWindow;
 import view.Login4_1AddWindow;
@@ -15,9 +16,11 @@ public class Login3_1Controller implements ActionListener {
     private Login3_0ManagementWindow login3;
     private Login4_1AddWindow login4;
     private Login3_1Sort login43;
+    private Client client;
 
-    public Login3_1Controller(Login3_0ManagementWindow login3) {
+    public Login3_1Controller(Login3_0ManagementWindow login3, Client client3) {
         this.login3 = login3;
+        this.client = client3;
     }
 
     @Override
@@ -25,7 +28,7 @@ public class Login3_1Controller implements ActionListener {
         String command = e.getActionCommand();
 
         if ("Add".equals(command)) {
-            new Login4_1AddWindow();
+            new Login4_1AddWindow(client);
         } else if ("Edit".equals(command)) {
             openEditWindow();
         } else if ("Delete".equals(command)) {
@@ -48,7 +51,7 @@ public class Login3_1Controller implements ActionListener {
             for (int i = 0; i < login3.getModel().getColumnCount(); i++) {
                 rowData[i] = login3.getModel().getValueAt(rowIndex, i);
             }
-            Login4_2EditWindow editWindow = new Login4_2EditWindow();
+            Login4_2EditWindow editWindow = new Login4_2EditWindow(client);
             editWindow.setEditData(rowData);
             editWindow.setVisible(true);
         } else {

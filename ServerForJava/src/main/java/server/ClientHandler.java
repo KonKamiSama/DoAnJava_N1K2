@@ -62,7 +62,6 @@ public class ClientHandler extends Thread {
 							out.println(jsAccount.toString());
 							break;
 						default:
-							System.out.println("Invalid action: " + action);
 							break;
 					}
 				} else {

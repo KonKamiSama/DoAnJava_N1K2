@@ -1,9 +1,14 @@
 package view;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.*;
+
+import client.Client;
 import controller.Login1Controller;
+import server.Server;
 
 public class Login1_RevealWindow extends JFrame {
 	private JButton GV;
@@ -16,9 +21,9 @@ public class Login1_RevealWindow extends JFrame {
 		this.setVisible(true);
 	}
 	public void init() {
-		
+
 		this.setLayout(null);
-		this.setTitle("Reveal");
+		this.setTitle("Login");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(350, 200);
 		this.setLocationRelativeTo(null);
@@ -29,11 +34,12 @@ public class Login1_RevealWindow extends JFrame {
 		HS = new JButton("Sinh Viên");
 		HS.addActionListener(al);
 		title = new JLabel("Who Are You ?");
-		
+
 		title.setBounds(120, 10, 100, 50);
 		GV.setBounds(40, 70, 100, 40);
 		HS.setBounds(200, 70, 100, 40);
-		this.add(GV); this.add(HS); this.add(title);
-		
+		this.add(GV);
+		this.add(HS);
+		this.add(title);
 	}
 }

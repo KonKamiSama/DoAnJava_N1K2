@@ -46,9 +46,11 @@ public class Login4_2EditWindow extends JFrame {
 	public SinhVien sv = new SinhVien();
 	private Login3_0ManagementWindow login3;
 	private ActionListener al;
-	private Client client = new Client();
-	
-	public Login4_2EditWindow() {
+	private Client client;
+
+	public Login4_2EditWindow() {}
+	public Login4_2EditWindow(Client client4) {
+		this.client = client4;
 		init();
 		this.setVisible(true);
 	}

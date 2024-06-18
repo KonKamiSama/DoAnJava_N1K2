@@ -1,12 +1,8 @@
 package view;
 
 import java.awt.Font;
-import java.text.SimpleDateFormat;
 
-import dao.SinhVienDAO;
 import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -21,7 +17,7 @@ import org.json.JSONObject;
 
 import client.Client;
 import controller.Login4_1ControllerAdd;
-import java.text.DateFormat;
+
 import java.text.ParseException;
 
 import model.SinhVien;
@@ -42,9 +38,10 @@ public class Login4_1AddWindow extends JFrame {
 	private JButton save;	private ButtonGroup group;
 	public SinhVien sv = new SinhVien();
 	private ActionListener al;
-	private Client client = new Client();
-	
-	public Login4_1AddWindow() {
+	private Client client;
+
+	public Login4_1AddWindow() {}
+	public Login4_1AddWindow(Client client4) {
 		init();
 		this.setVisible(true);
 	}

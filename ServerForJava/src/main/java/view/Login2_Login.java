@@ -17,7 +17,8 @@ public class Login2_Login extends JFrame {
 	private JPasswordField enterPassword;
 	private JButton login;
 	private ActionListener al;
-	private Client client = new Client();
+	private static Client client = new Client();
+	private Login3_0ManagementWindow login3;
 
 	public Login2_Login() {
 		init();
@@ -31,7 +32,7 @@ public class Login2_Login extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setTitle("Login");
 
-		al = new Login2Controller(this);
+		al = new Login2Controller(this, client, login3);
 		user = new JLabel("User");
 		password = new JLabel("Password");
 		enterPassword = new JPasswordField();
@@ -60,7 +61,7 @@ public class Login2_Login extends JFrame {
 		user.put("action", "Check");
 		client.sendData(user);
 		JSONArray users = client.getData();
-		System.out.println(users + "123");
+		System.out.println(users);
 		String usernameInput = enterUser.getText();
 		String passwordInput = new String(enterPassword.getPassword());
 
@@ -69,11 +70,9 @@ public class Login2_Login extends JFrame {
 			String username = userCheck.getString("username");
 			String password = userCheck.getString("password");
 			if (usernameInput.equals(username) && passwordInput.equals(password)) {
-				JOptionPane.showMessageDialog(this, "Login Successfully!");
 				return true;
 			}
 		}
-		JOptionPane.showMessageDialog(this, "Login Failed.");
 		return false;
 	}
 }

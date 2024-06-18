@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 public class Login3_3FindStudent extends JFrame implements ActionListener {
     private JTextField studentIdField;
@@ -33,13 +34,17 @@ public class Login3_3FindStudent extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String studentId = studentIdField.getText();
         if (!studentId.isEmpty()) {
-            displayStudentInfo(studentId);
+            try {
+                displayStudentInfo(studentId);
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Please enter a valid Student ID.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void displayStudentInfo(String studentId) {
+    private void displayStudentInfo(String studentId) throws ParseException {
         // Dummy data, replace with actual data retrieval logic
         String[] studentData = login3.findStudentById(studentId);
         if (studentData != null) {

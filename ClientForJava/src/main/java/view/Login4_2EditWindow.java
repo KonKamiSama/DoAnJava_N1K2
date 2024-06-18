@@ -3,6 +3,7 @@ package view;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 
+import dao.SinhVienDAO;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -41,12 +42,15 @@ public class Login4_2EditWindow extends JFrame {
 	private JLabel process;	private JTextField processB;
 	private JLabel codeLan;	private JTextField codeLanB;
 	private JButton update;	private ButtonGroup group;
+	private SinhVienDAO svd = new SinhVienDAO();
 	public SinhVien sv = new SinhVien();
 	private Login3_0ManagementWindow login3;
 	private ActionListener al;
-	private Client client = new Client();
-	
-	public Login4_2EditWindow() {
+	private Client client;
+
+	public Login4_2EditWindow() {}
+	public Login4_2EditWindow(Client client4) {
+		this.client = client4;
 		init();
 		this.setVisible(true);
 	}
@@ -185,7 +189,7 @@ public class Login4_2EditWindow extends JFrame {
 	        jsonSv.put("codeLan", codeLan);
 	        jsonSv.put("process", process);
 	        // ep json nay thanh 1 kieu string
-	        client.sentData(jsonSv);
+	        client.sendData(jsonSv);
 //	        svd.Edit(jsonSv.toString());
 	        
 	    } catch (Exception e) {

@@ -1,11 +1,8 @@
 package view;
 
 import java.awt.Font;
-import java.text.SimpleDateFormat;
 
 import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -20,7 +17,7 @@ import org.json.JSONObject;
 
 import client.Client;
 import controller.Login4_1ControllerAdd;
-import java.text.DateFormat;
+
 import java.text.ParseException;
 
 import model.SinhVien;
@@ -39,12 +36,12 @@ public class Login4_1AddWindow extends JFrame {
 	private JLabel process;	private JTextField processB;
 	private JLabel codeLan;	private JTextField codeLanB;
 	private JButton save;	private ButtonGroup group;
-	public static ArrayList<SinhVien> msv = new ArrayList<>();
 	public SinhVien sv = new SinhVien();
 	private ActionListener al;
-	private Client client = new Client();
-	
-	public Login4_1AddWindow() {
+	private Client client;
+
+	public Login4_1AddWindow() {}
+	public Login4_1AddWindow(Client client4) {
 		init();
 		this.setVisible(true);
 	}
@@ -150,7 +147,8 @@ public class Login4_1AddWindow extends JFrame {
 			        jsonSv.put("namepj", namepj);
 			        jsonSv.put("codeLan", codeLan);
 			        jsonSv.put("process", process);
-			        client.sentData(jsonSv);
+//			        svd.Save(jsonSv.toString());
+			        client.sendData(jsonSv);
 			    } catch (Exception e) {
 			        JOptionPane.showMessageDialog(this, "Có lỗi xảy ra: " + e.getMessage());
 			    }

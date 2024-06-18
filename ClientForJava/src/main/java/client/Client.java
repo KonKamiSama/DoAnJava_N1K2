@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,47 +14,54 @@ public class Client {
 	private PrintWriter out;
 	private BufferedReader in;
 
-	public void sentData(JSONObject jsonSv) {
+	public Client() {
+	}
+
+	public void connectServer() {
 		try {
-			out.println(jsonSv);	
-			String response = in.readLine();
-			System.out.println("Response from server: " + response);
-		} catch (Exception e) {
-			System.out.println("Connection failed: " + e.getMessage());
+			this.socket = new Socket("localhost", 7331);
+			this.out = new PrintWriter(socket.getOutputStream(), true);
+			this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			System.out.println("Connected to server.");
+			out.println("connected");
+		} catch (IOException e) {
+			System.out.println("Connection to server failed: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
-	public void connectServer() {
-		try {
-			socket = new Socket("localhost", 7331);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block]
-			System.out.println("Connection Failed !");
-			e.printStackTrace();
-		}
-		
+
+	public void sendData(JSONObject jsonSv) {
+		out.println(jsonSv.toString());
 	}
 
 	public JSONArray getData() {
+		JSONArray response = new JSONArray();
 		try {
 			String data = in.readLine();
-			System.out.println("Response from server: " + data);
-			return new JSONArray(data);
+			System.out.println("Data received from server: " + data);
+			response = new JSONArray(data);
 		} catch (Exception e) {
 			System.out.println("Failed to receive data from server: " + e.getMessage());
 			e.printStackTrace();
-			return null;
 		}
+		return response;
 	}
 
 	public void closeConnection() {
-        try {
-          socket.close();
-            System.out.println("Connection closed.");
-        } catch (Exception e) {
-            System.out.println("Failed to close connection: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+		try {
+			if (out != null) {
+				out.close();
+			}
+			if (in != null) {
+				in.close();
+			}
+			if (socket != null) {
+				socket.close();
+				System.out.println("Connection closed.");
+			}
+		} catch (IOException e) {
+			System.out.println("Failed to close connection: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 }
