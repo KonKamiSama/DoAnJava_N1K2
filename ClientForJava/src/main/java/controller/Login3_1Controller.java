@@ -14,8 +14,6 @@ import view.Login3_1Sort;
 
 public class Login3_1Controller implements ActionListener {
     private Login3_0ManagementWindow login3;
-    private Login4_1AddWindow login4;
-    private Login3_1Sort login43;
     private Client client;
 
     public Login3_1Controller(Login3_0ManagementWindow login3, Client client3) {

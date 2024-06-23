@@ -3,8 +3,6 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-
-import javax.swing.JOptionPane;
 import model.SinhVien;
 import view.Login4_1AddWindow;
 import view.Login3_0ManagementWindow;
