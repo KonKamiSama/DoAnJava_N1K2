@@ -42,6 +42,7 @@ public class Login4_1AddWindow extends JFrame {
 
 	public Login4_1AddWindow() {}
 	public Login4_1AddWindow(Client client4) {
+		this.client = client4;
 		init();
 		this.setVisible(true);
 	}
